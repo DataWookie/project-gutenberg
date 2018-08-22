@@ -4,7 +4,7 @@ library(tidyr)
 library(stringr)
 library(purrr)
 
-FOLDER = "gutenberg"
+FOLDER = "text"
 
 dir.create(FOLDER)
 
@@ -39,4 +39,4 @@ works <- works %>% inner_join(collected_works)
 
 works %>%
   select(id = gutenberg_id, author, title, size) %>%
-  write.csv2(file.path(FOLDER, "gutenberg-catalog.csv"), quote = FALSE, row.names = FALSE)
+  write.csv2("gutenberg-catalog.csv", quote = FALSE, row.names = FALSE)
