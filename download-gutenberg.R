@@ -10,7 +10,7 @@ dir.create(FOLDER)
 
 works <- gutenberg_works()
 
-works[1:5,] %>%
+works %>%
   select(id = gutenberg_id) %>%
   pwalk(function(id) {
   cat(sprintf("%d / %d\n", id, nrow(works)))
