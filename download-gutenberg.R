@@ -13,15 +13,20 @@ works <- gutenberg_works()
 works %>%
   select(id = gutenberg_id) %>%
   pwalk(function(id) {
-  cat(sprintf("%d / %d\n", id, nrow(works)))
+    # Break documents up into groups of (maximum) 1000 files.
+    folder = file.path(FOLDER, id %/% 1000)
+    if (!dir.exists(folder)) dir.create(folder)
+    path = file.path(folder, sprintf("%d.txt", id))
     
-    path = file.path(FOLDER, sprintf("%d.txt", id))
+    cat(sprintf("%d / %d -> %s\n", id, nrow(works), folder))
     
     if (!file.exists(path)) {
       gutenberg_download(id) %>%
         pull(text) %>%
         writeLines(path)
     }
+    
+    Sys.sleep(rpois(1, 3))
   })
 
 # Generate list of the works that we collected.
